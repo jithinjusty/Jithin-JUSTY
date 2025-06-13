@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jithin & Justy - Wedding Invitation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            color: #1a1a1a; /* Darker main text color */
+            text-align: center;
+            background:
+                linear-gradient(rgba(255, 250, 240, 0.4), /* More transparent gradient */
+                rgba(255, 250, 240, 0.4)), /* More transparent gradient */
+                url('couple.jpg') no-repeat center center fixed; /* Ensure 'couple.jpg' is in the same folder */
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="rgba(205,170,125,0.1)" stroke-width="1"/></svg>');
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .gold-divider {
+            width: 80%;
+            max-width: 400px;
+            height: 1px;
+            margin: 2rem auto;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        }
+
+        .floral-divider {
+            width: 80%;
+            max-width: 400px;
+            height: 30px;
+            margin: 2rem auto;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M10,10 Q25,0 40,10 T70,10" fill="none" stroke="rgba(195,106,90,0.3)" stroke-width="1"/></svg>') center/contain no-repeat;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.3); /* Even more transparent */
+            padding: 3rem 1rem 2rem;
+            backdrop-filter: blur(5px); /* Slightly more blur to help text readability */
+            border-bottom: 1px solid rgba(195, 106, 90, 0.1); /* Lighter border */
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4.5rem;
+            color: #c46a5a;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow for visibility */
+            letter-spacing: 2px;
+        }
+
+        header h2 {
+            font-size: 2.2rem;
+            color: #a35d5d;
+            margin-top: 0;
+            font-weight: 400;
+        }
+
+        #countdown {
+            font-size: 1.8rem;
+            margin-top: 1.5rem;
+            color: #5d3d3d; /* Darker countdown text */
+            font-weight: bold;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.4); /* More transparent countdown background */
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .invitation-text {
+            background-color: rgba(255, 255, 255, 0.6); /* More transparent */
+            padding: 2.5rem;
+            font-size: 1.3rem;
+            line-height: 1.7;
+            color: #1a1a1a; /* Darker text */
+            backdrop-filter: blur(8px); /* Stronger blur */
+            max-width: 700px;
+            margin: 2rem auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(195, 106, 90, 0.1); /* Lighter border */
+        }
+
+        .invitation-text strong {
+            color: #a35d5d;
+            font-weight: 700;
+        }
+
+        .location-link {
+            display: inline-block;
+            background-color: #d78e8e;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .location-link:hover {
+            background-color: #a35d5d;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.6); /* More transparent */
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 3rem auto;
+            width: 90%;
+            max-width: 500px;
+            color: #1a1a1a; /* Darker text */
+            backdrop-filter: blur(8px); /* Stronger blur */
+            border: 1px solid rgba(195, 106, 90, 0.1); /* Lighter border */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.9rem;
+            margin: 0.7rem 0;
+            border: 1px solid rgba(232, 208, 208, 0.6); /* More transparent border */
+            border-radius: 10px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.8); /* Input background slightly more transparent */
+            color: #1a1a1a; /* Darker input text */
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #d78e8e;
+            box-shadow: 0 0 0 3px rgba(215, 142, 142, 0.2);
+            outline: none;
+        }
+
+        button {
+            background-color: #d78e8e;
+            color: #fff;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:hover {
+            background-color: #a35d5d;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-text {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: #333; /* Darker footer text */
+            padding: 0 1rem;
+            font-style: italic;
+        }
+
+        .photo-upload {
+            background: rgba(255, 255, 255, 0.6); /* More transparent */
+            padding: 2.5rem;
+            border-radius: 15px;
+            max-width: 500px;
+            margin: 3rem auto;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(195, 106, 90, 0.1); /* Lighter border */
+        }
+
+        .photo-upload h3 {
+            color: #a35d5d;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .qr-code-image {
+            border: 8px solid white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .music-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 10;
+            background: #d78e8e;
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+            background: #a35d5d;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .fade-in {
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 { font-size: 3.2rem; }
+            header h2 { font-size: 1.7rem; }
+            .invitation-text { padding: 1.8rem; font-size: 1.15rem; }
+            #countdown { font-size: 1.4rem; padding: 0.7rem 1.2rem; }
+            .location-link { font-size: 1.1rem; padding: 0.9rem 1.8rem; }
+            .music-toggle { width: 50px; height: 50px; font-size: 24px; }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 2.8rem; }
+            header h2 { font-size: 1.5rem; }
+            .invitation-text { padding: 1.5rem; }
+            form { padding: 1.5rem; }
+            .photo-upload { padding: 1.8rem; }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #d78e8e;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            color: #4CAF50;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            display: none;
+            color: #f44336;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="fade-in">
+        <h1>Jithin & Justy</h1>
+        <h2>We are tying the knot!</h2>
+        <div id="countdown"></div>
+    </header>
+
+    <div class="gold-divider"></div>
+
+    <div class="invitation-text fade-in">
+        <p>With immense happiness, we, <strong>Jithin</strong> & <strong>Justy</strong>, warmly invite you to join us on our special day of love and togetherness.</p>
+        <p>📅 <strong>25th August 2025</strong> | ⏰ <strong>11:00 AM</strong><br>📍 <strong>St George Orthodox Church, Thonackadu, Kerala</strong></p>
+        <a href="https://maps.app.goo.gl/355dfcKV1TAx7XT38" class="location-link" target="_blank">
+            <i class="fas fa-map-marker-alt"></i> View Venue on Google Maps
+        </a>
+    </div>
+
+    <div class="floral-divider"></div>
+
+    <form id="wedding-form" class="fade-in" action="#" method="post">
+        <input type="text" name="user_name" placeholder="Your Name" required>
+
+        <fieldset style="border: 1px solid rgba(232, 208, 208, 0.6); /* More transparent border */ border-radius: 10px; padding: 20px; margin: 25px 0;">
+            <legend style="color: #a35d5d; padding: 0 15px; font-size: 1.2rem; font-weight: bold;">Will you attend?</legend>
+            <label style="display: block; margin: 15px 0; text-align: left; font-size: 1.1rem;">
+                <input type="radio" name="attend" value="Yes" required style="width: auto; margin-right: 12px;">
+                Yes, I'll be there with joy!
+            </label>
+            <label style="display: block; margin: 15px 0; text-align: left; font-size: 1.1rem;">
+                <input type="radio" name="attend" value="No" style="width: auto; margin-right: 12px;">
+                Unfortunately, I can't make it
+            </label>
+        </fieldset>
+
+        <textarea name="message" placeholder="Your loving message or wish for us..." rows="5" required></textarea>
+
+        <button type="submit" id="submit-btn">
+            <i class="fas fa-paper-plane"></i> Send Your Wishes
+        </button>
+        <div class="spinner" id="spinner"></div>
+        <div class="success-message" id="success-message">
+            <i class="fas fa-check-circle"></i> Thank you! Your response has been received.
+        </div>
+        <div class="error-message" id="error-message">
+            <i class="fas fa-exclamation-circle"></i> Oops! Something went wrong. Please try again.
+        </div>
+        <div class="footer-text">We are eagerly looking forward to celebrating with you!</div>
+    </form>
+
+    <div class="floral-divider"></div>
+
+    <div class="photo-upload fade-in">
+        <h3><i class="fas fa-camera"></i> Share Your Memories</h3>
+        <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 1.5rem;">
+            We'd love to see your photos from our special day!<br>
+            Upload your pictures using the link below:
+        </p>
+        <a href="https://drive.google.com/drive/folders/1dGYTagKny5fv-jWRObskRav8LySkclJr" target="_blank">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://drive.google.com/drive/folders/1dGYTagKny5fv-jWRObskRav8LySkclJr"
+                 alt="QR code to upload wedding photos to Google Drive"
+                 class="floating qr-code-image">
+        </a>
+        <p style="margin-top: 1.5rem; font-size: 1.1rem;">
+            <a href="https://drive.google.com/drive/folders/1dGYTagKny5fv-jWRObskRav8LySkclJr"
+               target="_blank"
+               style="color: #a35d5d; text-decoration: none; font-weight: bold;">
+                <i class="fas fa-cloud-upload-alt"></i> Upload Photos Here
+            </a>
+        </p>
+    </div>
+
+    <div class="gold-divider"></div>
+
+    <footer style="padding: 2rem 1rem; color: #333; /* Darker footer text */ font-size: 1.1rem;">
+        <p>With love, Jithin & Justy</p>
+        <p style="margin-top: 0.5rem; font-size: 0.95rem;">© 2025 Our Special Day</p>
+    </footer>
+
+    <button class="music-toggle" id="music-toggle">
+        <i class="fas fa-volume-up"></i>
+    </button>
+
+    <audio id="bg-music" loop>
+        <source src="wedding-music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Initialize EmailJS with your User ID
+        (function() {
+            emailjs.init("R9yw0yR1Yy6mYR_-R"); // Your Public Key
+        })();
+
+        // Countdown Timer
+        const countdown = document.getElementById('countdown');
+        const weddingDate = new Date('August 25, 2025 11:00:00 GMT+0530').getTime();
+
+        const interval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (distance < 0) {
+                clearInterval(interval);
+                countdown.innerHTML = "We are happily married!";
+            } else {
+                countdown.innerHTML = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+            }
+        }, 1000);
+
+        // Form Submission with EmailJS
+        document.getElementById('wedding-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            document.getElementById('spinner').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('submit-btn').disabled = true;
+
+            const formData = new FormData(this);
+            const data = {
+                user_name: formData.get('user_name'),
+                attend: formData.get('attend'),
+                message: formData.get('message')
+            };
+
+            emailjs.send('service_w45vnja', 'template_zr67lfj', data) // Your Service ID and Template ID
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    document.getElementById('spinner').style.display = 'none';
+                    document.getElementById('success-message').style.display = 'block';
+                    document.getElementById('wedding-form').reset();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    document.getElementById('spinner').style.display = 'none';
+                    document.getElementById('error-message').style.display = 'block';
+                })
+                .finally(function() {
+                    document.getElementById('submit-btn').disabled = false;
+                });
+        });
+
+        // Music Control
+        const music = document.getElementById('bg-music');
+        const musicToggle = document.getElementById('music-toggle');
+
+        music.volume = 0.5;
+        music.muted = true; // Start muted to attempt autoplay
+
+        // This attempts to play immediately, but will likely be blocked by browsers.
+        // The .catch() block handles this by showing the mute icon.
+        const playPromise = music.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Autoplay prevented:", error);
+                // If autoplay is prevented, ensure the button shows "muted" state
+                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            });
+        }
+
+        // Toggle button functionality:
+        // This is the primary way users will interact to play/pause and mute/unmute.
+        musicToggle.addEventListener('click', () => {
+            if (music.paused) {
+                // If paused, try to play and unmute.
+                music.play().then(() => {
+                    music.muted = false;
+                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }).catch(e => {
+                    // If play fails (e.g., still blocked), log error
+                    console.log("Playback failed on toggle click:", e);
+                    // Keep showing mute icon if it couldn't play
+                    musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                });
+            } else {
+                // If playing, pause and show mute icon.
+                music.pause();
+                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        });
+
+        // This function handles the *very first* user interaction on the page.
+        // It's a last resort to unmute if initial muted autoplay failed.
+        let hasInteracted = false;
+        function handleFirstInteraction() {
+            if (!hasInteracted) {
+                // Try to play if not already playing and unmute
+                if (music.paused) {
+                    music.play().then(() => {
+                        music.muted = false;
+                        musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    }).catch(e => {
+                        console.log("Attempted play/unmute on first interaction failed:", e);
+                    });
+                } else {
+                    // If already playing (e.g., muted autoplay worked), just unmute
+                    music.muted = false;
+                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }
+                hasInteracted = true;
+                // Remove listeners after first interaction to prevent redundant calls
+                document.body.removeEventListener('click', handleFirstInteraction);
+                document.body.removeEventListener('touchstart', handle
