@@ -14,15 +14,26 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: 'Playfair Display', serif;
             color: #333;
             text-align: center;
-            background:
-                linear-gradient(rgba(255, 250, 240, 0.65), /* Increased transparency of the gradient */
-                rgba(255, 250, 240, 0.65)), /* Increased transparency of the gradient */
-                url('couple.jpg') no-repeat center center fixed; /* Ensure 'couple.jpg' is in the same folder */
+            background-color: rgba(255, 250, 240, 0.65);
+            background-image: 
+                linear-gradient(rgba(255, 250, 240, 0.65), 
+                rgba(255, 250, 240, 0.65)), 
+                url('couple.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
             background-size: cover;
+            background-attachment: fixed;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
@@ -57,7 +68,7 @@
         }
 
         header {
-            background-color: rgba(255, 255, 255, 0.45); /* Increased transparency */
+            background-color: rgba(255, 255, 255, 0.45);
             padding: 3rem 1rem 2rem;
             backdrop-filter: blur(4px);
             border-bottom: 1px solid rgba(195, 106, 90, 0.2);
@@ -86,14 +97,14 @@
             color: #7b4d4d;
             font-weight: bold;
             padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.55); /* Increased transparency */
+            background: rgba(255, 255, 255, 0.55);
             border-radius: 50px;
             display: inline-block;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
         .invitation-text {
-            background-color: rgba(255, 255, 255, 0.75); /* Increased transparency */
+            background-color: rgba(255, 255, 255, 0.75);
             padding: 2.5rem;
             font-size: 1.3rem;
             line-height: 1.7;
@@ -131,7 +142,7 @@
         }
 
         form {
-            background-color: rgba(255, 255, 255, 0.75); /* Increased transparency */
+            background-color: rgba(255, 255, 255, 0.75);
             padding: 2rem;
             border-radius: 15px;
             margin: 3rem auto;
@@ -190,7 +201,7 @@
         }
 
         .photo-upload {
-             background: rgba(255, 255, 255, 0.75); /* Increased transparency */
+             background: rgba(255, 255, 255, 0.75);
             padding: 2.5rem;
             border-radius: 15px;
             max-width: 500px;
@@ -206,7 +217,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .qr-code-image { /* Added class for QR code image */
+        .qr-code-image {
             border: 8px solid white;
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
         }
@@ -305,6 +316,20 @@
             font-size: 1.2rem;
             margin-top: 1rem;
         }
+
+        /* iOS Specific Fixes */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                background-attachment: scroll !important;
+                position: relative;
+                height: 100%;
+            }
+            
+            /* Optional: Disable backdrop-filter if still having issues */
+            header, .invitation-text, form, .photo-upload {
+                backdrop-filter: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -343,169 +368,4 @@
 
         <textarea name="message" placeholder="Your loving message or wish for us..." rows="5" required></textarea>
 
-        <button type="submit" id="submit-btn">
-            <i class="fas fa-paper-plane"></i> Send Your Wishes
-        </button>
-        <div class="spinner" id="spinner"></div>
-        <div class="success-message" id="success-message">
-            <i class="fas fa-check-circle"></i> Thank you! Your response has been received.
-        </div>
-        <div class="error-message" id="error-message">
-            <i class="fas fa-exclamation-circle"></i> Oops! Something went wrong. Please try again.
-        </div>
-        <div class="footer-text">We are eagerly looking forward to celebrating with you!</div>
-    </form>
-
-    <div class="floral-divider"></div>
-
-    <div class="photo-upload fade-in">
-        <h3><i class="fas fa-camera"></i> Share Your Memories</h3>
-        <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 1.5rem;">
-            We'd love to see your photos from our special day!<br>
-            Upload your pictures using the link below:
-        </p>
-        <a href="https://drive.google.com/drive/folders/1dGYTagKny5fv-jWRObskRav8LySkclJr" target="_blank">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://drive.google.com/drive/folders/1dGYTagKny5fv-jWRObskRav8LySkclJr"
-                 alt="QR code to upload wedding photos to Google Drive"
-                 class="floating qr-code-image">
-        </a>
-        <p style="margin-top: 1.5rem; font-size: 1.1rem;">
-            <a href="https://drive.google.com/drive/folders/1dGYTagKny5fv-jWRObskRav8LySkclJr"
-               target="_blank"
-               style="color: #a35d5d; text-decoration: none; font-weight: bold;">
-                <i class="fas fa-cloud-upload-alt"></i> Upload Photos Here
-            </a>
-        </p>
-    </div>
-
-    <div class="gold-divider"></div>
-
-    <footer style="padding: 2rem 1rem; color: #777; font-size: 1.1rem;">
-        <p>With love, Jithin & Justy</p>
-        <p style="margin-top: 0.5rem; font-size: 0.95rem;">© 2025 Our Special Day</p>
-    </footer>
-
-    <button class="music-toggle" id="music-toggle">
-        <i class="fas fa-volume-up"></i>
-    </button>
-
-    <audio id="bg-music" loop>
-        <source src="wedding-music.mp3" type="audio/mpeg"> Your browser does not support the audio element.
-    </audio>
-
-    <script>
-        // Initialize EmailJS with your User ID
-        (function() {
-            emailjs.init("R9yw0yR1Yy6mYR_-R"); // Your Public Key
-        })();
-
-        // Countdown Timer
-        const countdown = document.getElementById('countdown');
-        // The wedding date is set for 25th August 2025, 11:00 AM (local time in Kerala, India - GMT+5:30)
-        const weddingDate = new Date('August 25, 2025 11:00:00 GMT+0530').getTime(); // Corrected for specific timezone
-
-        const interval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            if (distance < 0) {
-                clearInterval(interval);
-                countdown.innerHTML = "We are happily married!";
-            } else {
-                countdown.innerHTML = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
-            }
-        }, 1000);
-
-
-        // Form Submission with EmailJS
-        document.getElementById('wedding-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Show loading spinner and hide messages
-            document.getElementById('spinner').style.display = 'block';
-            document.getElementById('success-message').style.display = 'none';
-            document.getElementById('error-message').style.display = 'none';
-            document.getElementById('submit-btn').disabled = true;
-
-            // Get form data
-            const formData = new FormData(this);
-            const data = {
-                user_name: formData.get('user_name'),
-                attend: formData.get('attend'),
-                message: formData.get('message')
-            };
-
-            // Send email using EmailJS
-            emailjs.send('service_w45vnja', 'template_zr67lfj', data) // Your Service ID and Template ID
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    document.getElementById('spinner').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                    document.getElementById('wedding-form').reset(); // Clear the form
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    document.getElementById('spinner').style.display = 'none';
-                    document.getElementById('error-message').style.display = 'block';
-                })
-                .finally(function() {
-                    document.getElementById('submit-btn').disabled = false; // Re-enable button
-                });
-        });
-
-        // Music Control
-        const music = document.getElementById('bg-music');
-        const musicToggle = document.getElementById('music-toggle');
-
-        // Set initial volume and start muted
-        music.volume = 0.5;
-        music.muted = true;
-
-        // Try to autoplay (muted)
-        const playPromise = music.play();
-
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.log("Autoplay prevented:", error);
-                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Show mute icon if autoplay prevented
-            });
-        }
-
-        // Toggle button functionality
-        musicToggle.addEventListener('click', () => {
-            if (music.paused) {
-                music.play().then(() => {
-                    music.muted = false; // Unmute after explicit play by user
-                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                }).catch(e => {
-                    console.log("Playback failed:", e);
-                });
-            } else {
-                music.pause();
-                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            }
-        });
-
-        // Unmute on first user interaction (for browsers that block muted autoplay without direct interaction)
-        // This makes sure that if muted autoplay is blocked, a first click will still unmute it.
-        let hasInteracted = false;
-        function handleFirstInteraction() {
-            if (!hasInteracted) {
-                music.muted = false; // Unmute the music
-                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                hasInteracted = true;
-                // Remove listeners after first interaction
-                document.body.removeEventListener('click', handleFirstInteraction);
-                document.body.removeEventListener('touchstart', handleFirstInteraction);
-            }
-        }
-
-        // Attach listeners for initial interaction
-        document.body.addEventListener('click', handleFirstInteraction);
-        document.body.addEventListener('touchstart', handleFirstInteraction);
-    </script>
-</body>
-</html>
+        <button type="submit" id="submit-btn
